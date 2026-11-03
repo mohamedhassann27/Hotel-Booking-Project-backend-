@@ -5,8 +5,7 @@ import authorize from "../middleware/authorize.js";
 
 const hotelsRouter= Router()
 
-// hotelsRouter.get("/", auth, hotelsController.getAllHotels)
-hotelsRouter.get("/", hotelsController.getAllHotels)
+hotelsRouter.get("/", auth, hotelsController.getAllHotels)
 hotelsRouter.get("/:id", auth, hotelsController.getHotelById)
 // hotelsRouter.post("/", auth,authorize("admin"), hotelsController.createHotel)
 hotelsRouter.post("/", auth, hotelsController.createHotel)
