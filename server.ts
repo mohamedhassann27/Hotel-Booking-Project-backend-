@@ -25,6 +25,8 @@ app.use("/users", userRoutes)
 app.use(notFound)
 app.use(errorHandler)
 
-app.listen(process.env.PORT,()=>{
-    console.log("Server is running on http://localhost:" + process.env.PORT)
-})
+// app.listen(process.env.PORT,()=>{
+//     console.log("Server is running on http://localhost:" + process.env.PORT)
+// })
+
+export default app
