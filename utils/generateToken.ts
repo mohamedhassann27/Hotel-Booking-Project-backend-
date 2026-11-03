@@ -4,7 +4,8 @@ import type mongoose from "mongoose";
 
 const generateAccessToken = (user: {_id: mongoose.Types.ObjectId, role: string}) => {
     const {_id, role} = user;
-    const token= jwt.sign({id: _id.toString(), role}, process.env.ACCESS_TOKEN_SECRET as string, {expiresIn: "15m"})
+    // const token= jwt.sign({id: _id.toString(), role}, process.env.ACCESS_TOKEN_SECRET as string, {expiresIn: "15m"})
+    const token= jwt.sign({id: _id.toString(), role}, process.env.ACCESS_TOKEN_SECRET as string)
     return token;
 }
 

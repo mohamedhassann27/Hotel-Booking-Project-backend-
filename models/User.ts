@@ -28,6 +28,10 @@ const UserSchema= new mongoose.Schema({
             type: String,
             trim: true,
         },
+        nationality:{
+            type: String,
+            trim: true,
+        },
         role: {
             type: String,
             enum: ["customer", "manager", "admin"],

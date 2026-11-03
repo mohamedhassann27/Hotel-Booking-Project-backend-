@@ -96,9 +96,9 @@ class bookingController {
     async cancelMyBooking(req: Request, res: Response, next: NextFunction){
         const {bookingId}= req.params
         const customerId= req.user!.id
-        if(typeof bookingId!=="string" || !mongoose.Types.ObjectId.isValid(bookingId)){
-            return next(appError("Invalid booking id", 400))
-        }
+        // if(typeof bookingId!=="string" || !mongoose.Types.ObjectId.isValid(bookingId)){
+        //     return next(appError("Invalid booking id", 400))
+        // }
         try{
             const booking= await Booking.findOne({_id: bookingId, customer: customerId})
             if(!booking){
@@ -167,6 +167,28 @@ class bookingController {
             booking.status= status as "confirmed" | "cancelled" | "completed"
             await booking.save()
             res.status(200).json({success: true, message: "Booking status updated successfully", data: booking})
+        }catch(err){
+            next(err)
+        }
+    }
+
+    async updateBooking(req: Request, res: Response, next: NextFunction){
+        const {bookingId}= req.params
+        const customerId= req.user!.id
+        if(typeof bookingId!=="string" || !mongoose.Types.ObjectId.isValid(bookingId)){
+            return next(appError("Invalid booking id", 400))
+        }
+        const updatedData= req.body 
+        try{
+            const booking= await Booking.findOne({_id: bookingId, customer: customerId})
+            if(!booking){
+                return next(appError("Booking not found", 404))
+            }
+            if(booking.status === "cancelled" || booking.status === "completed"){
+                return next(appError("Cancelled or completed booking cannot be updated", 400))
+            }
+            const updatedBooking =await Booking.findByIdAndUpdate(bookingId, updatedData, {new: true}).populate("hotel").populate("room")
+            res.status(200).json({success: true, message: "Booking updated successfully", data: updatedBooking})
         }catch(err){
             next(err)
         }

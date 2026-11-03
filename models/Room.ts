@@ -34,6 +34,7 @@ const roomSchema= new mongoose.Schema({
             type: Number,
             required: [true, "Room capacity is required"],
             min: [1, "Room capacity must be at least 1"],
+            max: [6, "Room capacity cannot exceed 6"],
             default: 1
         },
         quantity:{
